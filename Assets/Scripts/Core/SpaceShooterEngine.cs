@@ -56,10 +56,11 @@ namespace SpaceShooterEngine
 
     public class Entity : MonoBehaviour
     {
-        public float maxHitPoints;
-        public float movementSpeed = 1;
-        public bool invulnerable;
-        public bool cantHeal;
+        public float maxHitPoints = 1f;
+        public float movementSpeed = 0f;
+        public float attackSpeed = 0f;
+        public bool invulnerable = false;
+        public bool cantHeal = false;
 
         [SerializeField] private float hitPoints;
 
@@ -178,6 +179,7 @@ namespace SpaceShooterEngine
         public float distanceOffset;
         public bool loop;
         public delegate void DestinationDelegate(Vector2 previous, Vector2 next);
+        public bool disabled = false;
 
 
         public Waypoint2D(Entity instance, List<Vector2> destinations, float distanceOffset)
@@ -194,29 +196,29 @@ namespace SpaceShooterEngine
             foreach(Vector2 destination in destinationSource)
                 this.destinations.Enqueue(destination);
             this.currentDestination = this.destinations.Dequeue();
+            disabled = false;
         }
 
         public void TravelToNextDestination(float time, DestinationDelegate onDestinationReach = null)
         {
-            if(destinations.Count <= 0)
+            if(disabled)
                 return;
 
             Vector2 entity = this.instance.transform.position;
             Vector2 destination = this.currentDestination;
             Vector2 direction = (entity - destination).normalized;
             this.instance.Move(direction, time);
+
             bool canGoToNext = Vector2.Distance(entity, destination) < this.distanceOffset;
             if(!canGoToNext)
                 return;
-            try
-            {
+            if(this.destinations.Count > 0)
                 this.currentDestination = this.destinations.Dequeue();
-            }
-            catch(System.InvalidOperationException)
-            {
+            else
                 if(loop)
                     ResetDestinations();
-            }
+                else
+                    disabled = true;
 
             if(onDestinationReach != null)
                 onDestinationReach(destination, this.currentDestination);
