@@ -57,6 +57,7 @@ namespace SpaceShooterEngine
     public class Entity : MonoBehaviour
     {
         public float maxHitPoints;
+        public float movementSpeed = 1;
         public bool invulnerable;
         public bool cantHeal;
 
@@ -105,6 +106,12 @@ namespace SpaceShooterEngine
                 OnZeroHitPoints();
 
             return true;
+        }
+
+        public void Move(Vector2 direction, float time)
+        {
+            GameObject instance = this.gameObject;
+            instance.transform.Translate(direction * this.movementSpeed * time);
         }
 
         public virtual void OnMaxHeal() {}
@@ -159,6 +166,60 @@ namespace SpaceShooterEngine
             position.x = Mathf.Clamp(position.x, xClamp * -1 - xOffset, xClamp + xOffset);
             position.y = Mathf.Clamp(position.y, yClamp * -1 - yOffset, yClamp + yOffset);
             this.transform.position = position;
+        }
+    }
+
+    public class Waypoint2D
+    {
+        public Entity instance;
+        public Queue<Vector2> destinations;
+        public List<Vector2> destinationSource;
+        public Vector2 currentDestination { get; private set; }
+        public float distanceOffset;
+        public bool loop;
+        public delegate void DestinationDelegate(Vector2 previous, Vector2 next);
+
+
+        public Waypoint2D(Entity instance, List<Vector2> destinations, float distanceOffset)
+        {
+            this.instance = instance;
+            this.destinationSource = destinations;
+            this.distanceOffset = distanceOffset;
+            this.destinations = new Queue<Vector2>();
+            ResetDestinations();
+        }
+
+        public void ResetDestinations()
+        {
+            foreach(Vector2 destination in destinationSource)
+                this.destinations.Enqueue(destination);
+            this.currentDestination = this.destinations.Dequeue();
+        }
+
+        public void TravelToNextDestination(float time, DestinationDelegate onDestinationReach = null)
+        {
+            if(destinations.Count <= 0)
+                return;
+
+            Vector2 entity = this.instance.transform.position;
+            Vector2 destination = this.currentDestination;
+            Vector2 direction = (entity - destination).normalized;
+            this.instance.Move(direction, time);
+            bool canGoToNext = Vector2.Distance(entity, destination) < this.distanceOffset;
+            if(!canGoToNext)
+                return;
+            try
+            {
+                this.currentDestination = this.destinations.Dequeue();
+            }
+            catch(System.InvalidOperationException)
+            {
+                if(loop)
+                    ResetDestinations();
+            }
+
+            if(onDestinationReach != null)
+                onDestinationReach(destination, this.currentDestination);
         }
     }
 }
