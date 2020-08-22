@@ -14,6 +14,7 @@ public class WaypointEnemy : Enemy
         foreach(Transform destination in destinations)
             destinationVectors.Add(destination.position);
         waypoints = new Waypoint2D(this, destinationVectors, 0.1f);
+        waypoints.loop = true;
     }
 
     void Update()

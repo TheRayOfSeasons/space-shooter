@@ -5,9 +5,7 @@ using SpaceShooterEngine;
 
 public class Player : Entity
 {
-    public float speed;
     public float damage;
-    public float attackSpeed;
 
     [SerializeField] private Camera gameCamera;
     [SerializeField] private GameObject bullet;
@@ -33,7 +31,7 @@ public class Player : Entity
 
     void Update()
     {
-        controls.Navigate(Time.deltaTime, speed);
+        controls.Navigate(Time.deltaTime, movementSpeed);
 
         if(Input.GetKey(Configs.SHOOT))
             shoot.Run(Time.deltaTime);
