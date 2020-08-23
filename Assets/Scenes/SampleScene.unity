@@ -145,7 +145,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 203869502}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.66, y: 0.5497311, z: -3.6123047}
+  m_LocalPosition: {x: 1.66, y: 0.5497311, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -407,7 +407,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1850033154}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.22, y: -1.54, z: -3.6123047}
+  m_LocalPosition: {x: -0.22, y: -1.54, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -437,7 +437,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2067235275}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.3232052, y: 0.5497311, z: -3.6123047}
+  m_LocalPosition: {x: -2.3232052, y: 0.5497311, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -622,11 +622,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerShip
       objectReference: {fileID: 0}
-    - target: {fileID: 395995126072704536, guid: 1f9f1e4363fc9f1488ffba25a02ef09b,
-        type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
     - target: {fileID: 395995126072704541, guid: 1f9f1e4363fc9f1488ffba25a02ef09b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -687,16 +682,6 @@ PrefabInstance:
       propertyPath: gameCamera
       value: 
       objectReference: {fileID: 519420031}
-    - target: {fileID: 395995126072704543, guid: 1f9f1e4363fc9f1488ffba25a02ef09b,
-        type: 3}
-      propertyPath: damage
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 395995126072704543, guid: 1f9f1e4363fc9f1488ffba25a02ef09b,
-        type: 3}
-      propertyPath: movementSpeed
-      value: 5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1f9f1e4363fc9f1488ffba25a02ef09b, type: 3}
 --- !u!1001 &3125329643665536284
@@ -765,6 +750,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: space_shooter_ship
+      objectReference: {fileID: 0}
+    - target: {fileID: 3125329645201232925, guid: c5364a137b9c9d84983c7cfcf263f3ea,
+        type: 3}
+      propertyPath: movementSpeed
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c5364a137b9c9d84983c7cfcf263f3ea, type: 3}
