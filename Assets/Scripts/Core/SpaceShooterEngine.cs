@@ -153,11 +153,11 @@ namespace SpaceShooterEngine
 
             if(Input.GetKey(Configs.LEFT))
             {
-                transform.Translate(movement * -1, 0, 0);
+                transform.Rotate(new Vector3(0, 0, 1) * movement * 100f);
             }
             else if (Input.GetKey(Configs.RIGHT))
             {
-                transform.Translate(movement, 0, 0);
+                transform.Rotate(new Vector3(0, 0, -1) * movement * 100f);
             }
         }
 
