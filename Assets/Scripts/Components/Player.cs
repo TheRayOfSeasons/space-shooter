@@ -9,6 +9,7 @@ public class Player : Entity
 
     [SerializeField] private Camera gameCamera;
     [SerializeField] private GameObject bullet;
+    [SerializeField] private GameObject front;
     [SerializeField] private float xBoundOffset;
     [SerializeField] private float yBoundOffset;
 
@@ -24,8 +25,10 @@ public class Player : Entity
 
         direction = new Vector2(0, 1f);
         shoot = new TimedAction(attackSpeed, () => {
-            GameObject bullet = shooter.Shoot(direction, 1000f);
+            Vector3 bulletDirection = (front.transform.position - transform.position).normalized;
+            GameObject bullet = shooter.Shoot(bulletDirection, 1000f);
             bullet.GetComponent<Bullet>().damage = damage;
+            bullet.transform.localEulerAngles = this.transform.localEulerAngles;
         });
     }
 
