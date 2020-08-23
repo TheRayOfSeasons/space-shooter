@@ -109,12 +109,16 @@ namespace SpaceShooterEngine
             return true;
         }
 
-        public void Move(Vector2 direction, float time)
+        public void Move(Vector2 direction, float time, bool slerp = false)
         {
+            float movement = this.movementSpeed * time;
             GameObject instance = this.gameObject;
-            transform.Translate(Vector2.up * this.movementSpeed * time);
             Quaternion lookDirection = Quaternion.LookRotation(transform.forward, -direction);
-            transform.rotation = lookDirection;
+            Quaternion newRotation = slerp
+                ? Quaternion.Slerp(transform.rotation, lookDirection, movement)
+                : lookDirection;
+            transform.Translate(Vector2.up * movement);
+            transform.rotation = newRotation;
         }
 
         public virtual void OnMaxHeal() {}
@@ -182,6 +186,7 @@ namespace SpaceShooterEngine
         public bool loop;
         public delegate void DestinationDelegate(Vector2 previous, Vector2 next);
         public bool disabled = false;
+        public bool slerp = false;
 
 
         public Waypoint2D(Entity instance, List<Vector2> destinations, float distanceOffset)
@@ -209,7 +214,7 @@ namespace SpaceShooterEngine
             Vector2 entity = this.instance.transform.position;
             Vector2 destination = this.currentDestination;
             Vector2 direction = (entity - destination).normalized;
-            this.instance.Move(direction, time);
+            this.instance.Move(direction, time, this.slerp);
 
             bool canGoToNext = Vector2.Distance(entity, destination) < this.distanceOffset;
             if(!canGoToNext)
