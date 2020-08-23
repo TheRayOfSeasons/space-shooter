@@ -2,33 +2,64 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// The core namespace that holds all the seamless logic of SpaceShooter.
+/// </summary>
 namespace SpaceShooterEngine
 {
+    /// <summary>
+    /// A delegate method for timed actions.
+    /// </summary>
     public delegate void TimerAction();
 
+    /// <summary>
+    /// A class that manages timed events.
+    /// </summary>
     public class TimedAction
     {
+        /// <summary>
+        /// The maximum amount of time before the configured event triggers.
+        /// </summary>
         public float maxTime;
-        public float currentTime { get; private set; }
-        public TimerAction action;
-        private bool initialAction = true;
 
-        public TimedAction(float maxTime, TimerAction action)
+        /// <summary>
+        /// The elapsed time left before the event triggers.
+        /// </summary>
+        public float currentTime { get; private set; }
+
+        /// <summary>
+        /// The event that will trigger once time runs out.
+        /// </summary>
+        public TimerAction action;
+
+        /// <summary>
+        /// A private boolean field for handling the initial trigger.
+        /// </summary>
+        private bool triggerOnInitial;
+
+        /// <summary>
+        /// The constructor for the timed action.
+        /// </summary>
+        public TimedAction(float maxTime, TimerAction action, bool triggerOnInitial = true)
         {
             this.maxTime = maxTime;
             this.currentTime = maxTime;
             this.action = action;
+            this.triggerOnInitial = triggerOnInitial;
         }
 
+        /// <summary>
+        /// Runs the timed action.
+        /// </summary>
         public void Run(float time)
         {
             currentTime -= time;
-            if(currentTime > 0 && !initialAction)
+            if(currentTime > 0 && !triggerOnInitial)
                 return;
 
             action();
-            if(initialAction)
-                initialAction = false;
+            if(triggerOnInitial)
+                triggerOnInitial = false;
             currentTime = maxTime;
         }
     }
