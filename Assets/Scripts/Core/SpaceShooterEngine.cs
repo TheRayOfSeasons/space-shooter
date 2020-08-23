@@ -112,7 +112,9 @@ namespace SpaceShooterEngine
         public void Move(Vector2 direction, float time)
         {
             GameObject instance = this.gameObject;
-            instance.transform.Translate(direction * this.movementSpeed * time);
+            transform.Translate(Vector2.up * this.movementSpeed * time);
+            Quaternion lookDirection = Quaternion.LookRotation(transform.forward, -direction);
+            transform.rotation = lookDirection;
         }
 
         public virtual void OnMaxHeal() {}
