@@ -6,6 +6,7 @@ using SpaceShooterEngine;
 public class BasicEnemy : Enemy
 {
     [SerializeField] private GameObject bullet;
+    [SerializeField] private GameObject front;
 
     private Shooter shooter;
     private TimedAction shoot;
@@ -18,7 +19,9 @@ public class BasicEnemy : Enemy
         attackSpeed = 1f;
         shooter = new Shooter(this.gameObject, bullet);
         shoot = new TimedAction(attackSpeed, () => {
-            shooter.Shoot(bulletDirection, bulletSpeed);
+            Vector3 bulletDirection = (front.transform.position - transform.position).normalized;
+            GameObject bullet = shooter.Shoot(bulletDirection, bulletSpeed);
+            bullet.transform.localEulerAngles = this.transform.localEulerAngles;
         });
     }
 

@@ -8,6 +8,11 @@ public class Bullet : MonoBehaviour
     public List<string> includes;
     public List<string> excludes;
 
+    void Start()
+    {
+        Destroy(gameObject, 2f);
+    }
+
     void OnTriggerEnter2D(Collider2D collider)
     {
         string tag = collider.gameObject.tag;
