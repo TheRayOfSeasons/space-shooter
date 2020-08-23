@@ -6,6 +6,7 @@ using SpaceShooterEngine;
 public class WaypointEnemy : Enemy
 {
     public List<Transform> destinations;
+    [SerializeField] private float distanceOffset;
     private Waypoint2D waypoints;
 
     void Start()
@@ -13,8 +14,9 @@ public class WaypointEnemy : Enemy
         List<Vector2> destinationVectors = new List<Vector2>();
         foreach(Transform destination in destinations)
             destinationVectors.Add(destination.position);
-        waypoints = new Waypoint2D(this, destinationVectors, 0.1f);
+        waypoints = new Waypoint2D(this, destinationVectors, distanceOffset);
         waypoints.loop = true;
+        waypoints.slerp = true;
     }
 
     void Update()
