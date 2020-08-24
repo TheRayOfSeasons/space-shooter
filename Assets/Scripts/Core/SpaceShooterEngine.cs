@@ -51,6 +51,9 @@ namespace SpaceShooterEngine
         /// <summary>
         /// Runs the timed action.
         /// </summary>
+        /// <param name="time">
+        /// The timer's basis for the countdown.
+        /// </param>
         public void Run(float time)
         {
             currentTime -= time;
