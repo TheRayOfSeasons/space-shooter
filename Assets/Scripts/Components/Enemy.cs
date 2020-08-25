@@ -7,6 +7,7 @@ public class Enemy : Entity
 {
     public override void OnZeroHitPoints()
     {
+        GameManager.Instance.AddScore(scoreReward);
         Destroy(gameObject);
     }
 
