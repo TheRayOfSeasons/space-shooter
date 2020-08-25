@@ -93,6 +93,7 @@ namespace SpaceShooterEngine
         public float maxHitPoints = 1f;
         public float movementSpeed = 0f;
         public float attackSpeed = 0f;
+        public float scoreReward = 0f;
         public bool invulnerable = false;
         public bool cantHeal = false;
 
