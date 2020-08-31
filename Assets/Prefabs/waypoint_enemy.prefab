@@ -191,6 +191,7 @@ MonoBehaviour:
   maxHitPoints: 5
   movementSpeed: 10
   attackSpeed: 0.2
+  scoreReward: 100
   invulnerable: 0
   cantHeal: 0
   hitPoints: 0
