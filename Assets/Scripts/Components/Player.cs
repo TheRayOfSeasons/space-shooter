@@ -39,16 +39,4 @@ public class Player : Entity
         if(Input.GetKey(Configs.SHOOT))
             shoot.Run(Time.deltaTime);
     }
-
-    void LateUpdate()
-    {
-        Vector3 screenBounds = gameCamera.ScreenToWorldPoint(
-            new Vector3(
-                Screen.width,
-                Screen.height,
-                gameCamera.transform.position.z
-            )
-        );
-        controls.ClampMovement(screenBounds.x, screenBounds.y, xBoundOffset, yBoundOffset);
-    }
 }
