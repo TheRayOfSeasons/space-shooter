@@ -180,34 +180,35 @@ namespace SpaceShooterEngine
         /// Allows the gameObject's position to be controlled by the player
         /// through its transform translate method.
         /// </summary>
-        public virtual void Navigate(float time, float speed)
+        public virtual void Navigate(Transform localTransform, float time, float speed)
         {
             float movement = time * speed;
             if(Input.GetKey(Configs.FORWARD))
             {
-                transform.Translate(0, movement, 0);
+                localTransform.Translate(0, movement, 0);
             }
             else if (Input.GetKey(Configs.BACK))
             {
-                transform.Translate(0, movement * -1, 0);
+                localTransform.Translate(0, movement * -1, 0);
             }
 
             if(Input.GetKey(Configs.LEFT))
             {
-                transform.Rotate(new Vector3(0, 0, 1) * movement * 100f);
+                localTransform.Rotate(new Vector3(0, 0, 1) * movement * 100f);
             }
             else if (Input.GetKey(Configs.RIGHT))
             {
-                transform.Rotate(new Vector3(0, 0, -1) * movement * 100f);
+                localTransform.Rotate(new Vector3(0, 0, -1) * movement * 100f);
             }
         }
 
-        public virtual void ClampMovement(float xClamp, float yClamp, float xOffset, float yOffset)
+        public virtual void ClampMovement(
+            Transform localTransform, float xClamp, float yClamp, float xOffset, float yOffset)
         {
-            Vector3 position = this.transform.position;
+            Vector3 position = localTransform.position;
             position.x = Mathf.Clamp(position.x, xClamp * -1 - xOffset, xClamp + xOffset);
             position.y = Mathf.Clamp(position.y, yClamp * -1 - yOffset, yClamp + yOffset);
-            this.transform.position = position;
+            localTransform.position = position;
         }
     }
 
