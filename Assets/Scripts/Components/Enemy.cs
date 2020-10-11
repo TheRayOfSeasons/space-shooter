@@ -11,12 +11,12 @@ public class Enemy : Entity
         Destroy(gameObject);
     }
 
-    void OnTriggerEnter2D(Collider2D collider)
-    {
-        GameObject other = collider.gameObject;
-        string tag = other.tag;
-        Tags.Validate(tag);
-        if(tag == Tags.PLAYERBULLET)
-            Damage(other.GetComponent<Bullet>().damage);
-    }
+    // void OnTriggerEnter2D(Collider2D collider)
+    // {
+    //     GameObject other = collider.gameObject;
+    //     string tag = other.tag;
+    //     Tags.Validate(tag);
+    //     if(tag == Tags.PLAYERBULLET)
+    //         Damage(other.GetComponent<Bullet>().damage);
+    // }
 }

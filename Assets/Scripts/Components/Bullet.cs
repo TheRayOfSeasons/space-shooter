@@ -1,24 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SpaceShooterEngine;
 
-public class Bullet : MonoBehaviour
+public class Bullet : Projectile
 {
-    public float damage = 1;
-    public List<string> includes;
-    public List<string> excludes;
-
-    void Start()
+    public override void AttachPayload(Entity entity)
     {
-        Destroy(gameObject, 2f);
-    }
-
-    void OnTriggerEnter2D(Collider2D collider)
-    {
-        string tag = collider.gameObject.tag;
-        Tags.Validate(tag);
-        bool canDestroy = includes.Count > 0? includes.Contains(tag) : !excludes.Contains(tag);
-        if(canDestroy)
+        Debug.Log("Attached Payload");
+        Debug.Log($"Shot: {this.spriteRenderer.color} to {entity.color}");
+        if(this.spriteRenderer.color == entity.color)
+        {
+            entity.Damage(this.damage);
             Destroy(gameObject);
+        }
     }
 }

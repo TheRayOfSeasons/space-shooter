@@ -67,29 +67,10 @@ namespace SpaceShooterEngine
         }
     }
 
-    public class Shooter
-    {
-        public GameObject instance;
-        public GameObject bulletPrefab;
-
-        public Shooter(GameObject instance, GameObject bulletPrefab)
-        {
-            this.instance = instance;
-            this.bulletPrefab = bulletPrefab;
-        }
-
-        public GameObject Shoot(Vector2 direction, float speed)
-        {
-            GameObject bullet = GameObject.Instantiate(this.bulletPrefab);
-            Rigidbody2D bulletRigidbody = bullet.GetComponent<Rigidbody2D>();
-            bullet.transform.position = instance.transform.position;
-            bulletRigidbody.AddForce(direction * speed);
-            return bullet;
-        }
-    }
-
     public class Entity : MonoBehaviour
     {
+        public SpriteRenderer spriteRenderer;
+        public Color color;
         public float maxHitPoints = 1f;
         public float movementSpeed = 0f;
         public float attackSpeed = 0f;
@@ -107,6 +88,9 @@ namespace SpaceShooterEngine
         void Awake()
         {
             ResetHealth();
+            if(GetComponent<SpriteRenderer>())
+                this.spriteRenderer = GetComponent<SpriteRenderer>();
+            this.color = this.spriteRenderer.color;
         }
 
         public void ResetHealth()
@@ -163,6 +147,76 @@ namespace SpaceShooterEngine
         public virtual void OnDamage() {}
 
         public virtual void OnObstacleHit() {}
+    }
+
+    public class Shooter
+    {
+        public GameObject instance;
+        public GameObject bulletPrefab;
+        public bool limitToColor = true;
+
+        public Shooter(GameObject instance, GameObject bulletPrefab)
+        {
+            this.instance = instance;
+            this.bulletPrefab = bulletPrefab;
+        }
+
+        public GameObject Shoot(Vector2 direction, float speed)
+        {
+            GameObject bullet = GameObject.Instantiate(this.bulletPrefab);
+            Rigidbody2D bulletRigidbody = bullet.GetComponent<Rigidbody2D>();
+            bullet.transform.position = instance.transform.position;
+            bulletRigidbody.AddForce(direction * speed);
+            return bullet;
+        }
+    }
+
+    public class Projectile : Entity
+    {
+        public float damage = 1;
+        public List<string> includes;
+        public List<string> excludes;
+        public float timeout = float.NaN;
+        private float defaultTimeout = 10f;
+        public bool destroyAlwaysOnHit = false;
+
+        void Start()
+        {
+            Setup();
+            float timeoutValue = float.IsNaN(this.timeout) ? this.timeout : this.defaultTimeout;
+            Destroy(gameObject, timeoutValue);
+        }
+
+        public virtual void Setup() {}
+
+        private void SendPayload(Entity entity)
+        {
+            BeforeAttachPayload(entity);
+            AttachPayload(entity);
+            AfterAttachPayload(entity);
+        }
+
+        public virtual void BeforeAttachPayload(Entity entity) {}
+
+        public virtual void AttachPayload(Entity entity) {}
+
+        public virtual void AfterAttachPayload(Entity entity) {}
+
+        void OnTriggerEnter2D(Collider2D collider)
+        {
+            GameObject entityObject = collider.gameObject;
+            Entity entity = entityObject.GetComponent<Entity>();
+            string tag = entityObject.tag;
+            Tags.Validate(tag);
+            bool canDestroy = includes.Count > 0? includes.Contains(tag) : !excludes.Contains(tag);
+            if(canDestroy)
+            {
+                if(entity)
+                    SendPayload(entity);
+                if(this.destroyAlwaysOnHit)
+                    Destroy(gameObject);
+            }
+        }
     }
 
     public class ControlSystem

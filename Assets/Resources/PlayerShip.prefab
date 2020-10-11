@@ -77,6 +77,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70f8515edee6fb44b9e9a7effbcb7675, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 3387877225251896537}
+  color: {r: 0, g: 0, b: 0, a: 0}
   maxHitPoints: 50
   movementSpeed: 5
   attackSpeed: 0.1
