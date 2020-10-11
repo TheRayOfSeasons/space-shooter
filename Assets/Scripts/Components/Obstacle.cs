@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using SpaceShooterEngine;
 
-public class Enemy : Entity
+public class Obstacle : Entity
 {
     public override void OnZeroHitPoints()
     {
-        GameManager.Instance.AddScore(scoreReward);
         Destroy(gameObject);
     }
 }

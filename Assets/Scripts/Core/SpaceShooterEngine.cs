@@ -90,12 +90,19 @@ namespace SpaceShooterEngine
             ResetHealth();
             if(GetComponent<SpriteRenderer>())
                 this.spriteRenderer = GetComponent<SpriteRenderer>();
-            this.color = this.spriteRenderer.color;
+            InjectColor(this.spriteRenderer.color);
         }
 
         public void ResetHealth()
         {
             hitPoints = maxHitPoints;
+        }
+
+        public bool HasEqualColorWith(Entity entity)
+        {
+            string localColor = ColorUtility.ToHtmlStringRGBA(this.color);
+            string otherColor = ColorUtility.ToHtmlStringRGBA(entity.color);
+            return localColor == otherColor;
         }
 
         public bool Heal(float heal)
@@ -138,6 +145,12 @@ namespace SpaceShooterEngine
                 : lookDirection;
             transform.Translate(Vector2.up * movement);
             transform.rotation = newRotation;
+        }
+
+        public void InjectColor(Color color)
+        {
+            this.spriteRenderer.color = color;
+            this.color = color;
         }
 
         public virtual void OnMaxHeal() {}

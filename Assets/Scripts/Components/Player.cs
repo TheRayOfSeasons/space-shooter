@@ -31,6 +31,7 @@ public class Player : Entity
                 front.transform.position - mainTransform.position).normalized;
             GameObject bullet = shooter.Shoot(bulletDirection, 1000f);
             bullet.GetComponent<Bullet>().damage = damage;
+            bullet.GetComponent<Bullet>().InjectColor(this.color);
             bullet.transform.localEulerAngles = mainTransform.localEulerAngles;
         });
     }
