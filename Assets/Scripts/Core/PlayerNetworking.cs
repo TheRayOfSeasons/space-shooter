@@ -11,7 +11,7 @@ public class PlayerNetworking : MonoBehaviour
 
     void Start()
     {
-        photonView = GetComponent<PhotonView>();
+        this.photonView = GetComponent<PhotonView>();
         Initialize();
     }
 
@@ -23,5 +23,28 @@ public class PlayerNetworking : MonoBehaviour
             foreach(MonoBehaviour script in scriptsToIgnore)
                 script.enabled = false;
         }
+        else
+        {
+            InitializePlayerColor();
+        }
+    }
+
+    /// <summary>
+    /// Publish player color so other players can see.
+    /// </summary>
+    [PunRPC]
+    private void RPCInjectColor(string hexcode)
+    {
+        Player player = this.GetComponent<Player>();
+        player.AssignColor(hexcode);
+    }
+
+    private void InitializePlayerColor()
+    {
+        Player player = this.GetComponent<Player>();
+        string hexcode = Constants.EntityColor.GetRandomColorHex();
+        Debug.Log(hexcode);
+        player.AssignColor(hexcode);
+        photonView.RPC("RPCInjectColor", PhotonTargets.AllBuffered, hexcode);
     }
 }

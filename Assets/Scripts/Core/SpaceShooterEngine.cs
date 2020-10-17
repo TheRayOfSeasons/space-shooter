@@ -70,13 +70,14 @@ namespace SpaceShooterEngine
     public class Entity : MonoBehaviour
     {
         public SpriteRenderer spriteRenderer;
-        public Color color;
+        public Color realColor;
         public float maxHitPoints = 1f;
         public float movementSpeed = 0f;
         public float attackSpeed = 0f;
         public float scoreReward = 0f;
         public bool invulnerable = false;
         public bool cantHeal = false;
+        [SerializeField] public string hexcode;
 
         [SerializeField] private float hitPoints;
 
@@ -90,7 +91,6 @@ namespace SpaceShooterEngine
             ResetHealth();
             if(GetComponent<SpriteRenderer>())
                 this.spriteRenderer = GetComponent<SpriteRenderer>();
-            InjectColor(this.spriteRenderer.color);
         }
 
         public void ResetHealth()
@@ -100,8 +100,8 @@ namespace SpaceShooterEngine
 
         public bool HasEqualColorWith(Entity entity)
         {
-            string localColor = ColorUtility.ToHtmlStringRGBA(this.color);
-            string otherColor = ColorUtility.ToHtmlStringRGBA(entity.color);
+            string localColor = ColorUtility.ToHtmlStringRGBA(this.realColor);
+            string otherColor = ColorUtility.ToHtmlStringRGBA(entity.realColor);
             return localColor == otherColor;
         }
 
@@ -147,10 +147,22 @@ namespace SpaceShooterEngine
             transform.rotation = newRotation;
         }
 
+        public Color GetEntityColor()
+        {
+            return Constants.EntityColor.TranslateHexToColor(this.hexcode);
+        }
+
+        public void AssignColor(string hexcode)
+        {
+            this.hexcode = hexcode;
+            Color color = this.GetEntityColor();
+            InjectColor(color);
+        }
+
         public void InjectColor(Color color)
         {
             this.spriteRenderer.color = color;
-            this.color = color;
+            this.realColor = color;
         }
 
         public virtual void OnMaxHeal() {}
