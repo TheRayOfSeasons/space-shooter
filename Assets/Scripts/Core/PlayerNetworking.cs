@@ -12,7 +12,7 @@ public class PlayerNetworking : MonoBehaviour
     void Start()
     {
         this.photonView = GetComponent<PhotonView>();
-        Initialize();
+        this.Initialize();
     }
 
     private void Initialize()

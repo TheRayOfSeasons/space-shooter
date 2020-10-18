@@ -186,12 +186,23 @@ namespace SpaceShooterEngine
             this.bulletPrefab = bulletPrefab;
         }
 
+        public virtual GameObject InstantiateBullet()
+        {
+            return GameObject.Instantiate(this.bulletPrefab);
+        }
+
+        public GameObject SetupBulletValues(Vector2 direction, float speed, GameObject bullet)
+        {
+            Rigidbody2D bulletRigidbody = bullet.GetComponent<Rigidbody2D>();
+            bullet.transform.position = this.instance.transform.position;
+            bulletRigidbody.AddForce(direction * speed);
+            return bullet;
+        }
+
         public GameObject Shoot(Vector2 direction, float speed)
         {
-            GameObject bullet = GameObject.Instantiate(this.bulletPrefab);
-            Rigidbody2D bulletRigidbody = bullet.GetComponent<Rigidbody2D>();
-            bullet.transform.position = instance.transform.position;
-            bulletRigidbody.AddForce(direction * speed);
+            GameObject bullet = this.InstantiateBullet();
+            bullet = SetupBulletValues(direction, speed, bullet);
             return bullet;
         }
     }

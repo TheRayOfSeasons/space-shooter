@@ -18,22 +18,30 @@ public class Player : Entity, IPunObservable
     private Shooter shooter;
     private Vector2 direction;
     private TimedAction shoot;
+    public PhotonView photonView;
 
     void Start()
     {
         controls = new ControlSystem(this.mainObject);
         shooter = new Shooter(this.mainObject, bullet);
+        photonView = this.GetComponent<PhotonView>();
 
         direction = new Vector2(0, 1f);
         shoot = new TimedAction(attackSpeed, () => {
-            Transform mainTransform = this.mainObject.transform;
-            Vector3 bulletDirection = (
-                front.transform.position - mainTransform.position).normalized;
-            GameObject bullet = shooter.Shoot(bulletDirection, 1000f);
-            bullet.GetComponent<Bullet>().damage = damage;
-            bullet.GetComponent<Bullet>().InjectColor(this.realColor);
-            bullet.transform.localEulerAngles = mainTransform.localEulerAngles;
+            photonView.RPC("RPCShoot", PhotonTargets.AllBuffered, null);
         });
+    }
+
+    [PunRPC]
+    public void RPCShoot()
+    {
+        Transform mainTransform = this.mainObject.transform;
+        Vector3 bulletDirection = (
+            front.transform.position - mainTransform.position).normalized;
+        GameObject bullet = shooter.Shoot(bulletDirection, 1000f);
+        bullet.GetComponent<Bullet>().damage = damage;
+        bullet.GetComponent<Bullet>().InjectColor(this.realColor);
+        bullet.transform.localEulerAngles = mainTransform.localEulerAngles;
     }
 
     void Update()
