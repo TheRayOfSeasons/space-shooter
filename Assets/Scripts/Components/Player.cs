@@ -68,17 +68,4 @@ public class Player : Entity
         );
     }
 
-    // public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    // {
-    //     if(stream.isWriting)
-    //     {
-    //         stream.SendNext(this.hexcode);
-    //     }
-    //     else
-    //     {
-    //         this.hexcode = (string)stream.ReceiveNext();
-    //         this.AssignColor(this.hexcode);
-    //     }
-    // }
-
 }
