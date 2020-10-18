@@ -40,7 +40,7 @@ public class Player : Entity, IPunObservable
             front.transform.position - mainTransform.position).normalized;
         GameObject bullet = shooter.Shoot(bulletDirection, 1000f);
         bullet.GetComponent<Bullet>().damage = damage;
-        bullet.GetComponent<Bullet>().InjectColor(this.realColor);
+        bullet.GetComponent<Bullet>().AssignColor(this.hexcode);
         bullet.transform.localEulerAngles = mainTransform.localEulerAngles;
     }
 
