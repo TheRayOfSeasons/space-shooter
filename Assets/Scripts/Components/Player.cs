@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using SpaceShooterEngine;
 
-public class Player : Entity, IPunObservable
+public class Player : Entity
 {
     public float damage;
 
@@ -39,8 +39,18 @@ public class Player : Entity, IPunObservable
         Vector3 bulletDirection = (
             front.transform.position - mainTransform.position).normalized;
         GameObject bullet = shooter.Shoot(bulletDirection, 1000f);
-        bullet.GetComponent<Bullet>().damage = damage;
-        bullet.GetComponent<Bullet>().AssignColor(this.hexcode);
+        Bullet bulletScript;
+        try
+        {
+            bulletScript = bullet.GetComponent<Bullet>();
+        }
+        catch(System.NullReferenceException)
+        {
+            // Fail silently if bullet got destroyed too early.
+            return;
+        }
+        bulletScript.damage = damage;
+        bulletScript.AssignColor(this.hexcode);
         bullet.transform.localEulerAngles = mainTransform.localEulerAngles;
     }
 
@@ -58,17 +68,17 @@ public class Player : Entity, IPunObservable
         );
     }
 
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if(stream.isWriting)
-        {
-            stream.SendNext(this.hexcode);
-        }
-        else
-        {
-            this.hexcode = (string)stream.ReceiveNext();
-            this.AssignColor(this.hexcode);
-        }
-    }
+    // public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    // {
+    //     if(stream.isWriting)
+    //     {
+    //         stream.SendNext(this.hexcode);
+    //     }
+    //     else
+    //     {
+    //         this.hexcode = (string)stream.ReceiveNext();
+    //         this.AssignColor(this.hexcode);
+    //     }
+    // }
 
 }
