@@ -600,6 +600,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7411ea87809c10741bc6b1d3f4a9f368, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roomData: {fileID: 11400000, guid: 11733da5db0a37a4c8e545dbdcf78a2b, type: 2}
   playerPrefab: {fileID: 395995126072704536, guid: 1f9f1e4363fc9f1488ffba25a02ef09b,
     type: 3}
   lobbyCamera: {fileID: 519420028}

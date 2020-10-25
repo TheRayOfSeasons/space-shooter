@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PhotonManager : MonoBehaviour
 {
+    public RoomData roomData;
+
     public GameObject playerPrefab;
     [SerializeField] private GameObject lobbyCamera;
     private Vector3 defaultStartPosition;
@@ -17,10 +19,11 @@ public class PhotonManager : MonoBehaviour
     void OnJoinedLobby()
     {
         PhotonNetwork.JoinOrCreateRoom(
-            "Room",
+            this.roomData.roomName ?? "Room",
             new RoomOptions(){MaxPlayers=Configs.maxPlayers},
             TypedLobby.Default
         );
+        Debug.Log(this.roomData.roomName);
     }
 
     void OnJoinedRoom()
