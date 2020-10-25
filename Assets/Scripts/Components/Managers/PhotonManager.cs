@@ -12,7 +12,8 @@ public class PhotonManager : MonoBehaviour
 
     void Start()
     {
-        PhotonNetwork.ConnectUsingSettings("1.0");
+        if(!PhotonNetwork.connected)
+            PhotonNetwork.ConnectUsingSettings("1.0");
         defaultStartPosition = new Vector3(0, 0, 0);
     }
 
@@ -20,13 +21,21 @@ public class PhotonManager : MonoBehaviour
     {
         PhotonNetwork.JoinOrCreateRoom(
             this.roomData.roomName ?? "Room",
-            new RoomOptions(){MaxPlayers=Configs.maxPlayers},
+            new RoomOptions(){
+                MaxPlayers=Configs.maxPlayers,
+                IsVisible=true
+            },
             TypedLobby.Default
         );
         Debug.Log(this.roomData.roomName);
     }
 
     void OnJoinedRoom()
+    {
+        InitializePlayer();
+    }
+
+    void InitializePlayer()
     {
         PhotonNetwork.Instantiate(
             playerPrefab.name,

@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Button))]
-public class RoomListButton : MonoBehaviour
+public class CreateRoomButton : MonoBehaviour
 {
-    public string roomName;
     // Start is called before the first frame update
     void Start()
     {
         this.GetComponent<Button>().onClick.AddListener(() => {
-            MenuManager.Instance.roomData.roomName = this.roomName;
-            PhotonNetwork.JoinRoom(this.roomName);
+            string roomName = "TestRoom";
+            PhotonRoomService.CreateRoom(roomName);
+            MenuManager.Instance.roomData.roomName = roomName;
             LevelManager.Instance.LoadScene(1, true);
         });
     }

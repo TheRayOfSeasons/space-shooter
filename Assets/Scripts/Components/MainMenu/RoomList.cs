@@ -10,21 +10,20 @@ public class RoomList : MonoBehaviour
     public float intervals = 50f;
     [SerializeField] private GameObject roomButtonPrefab;
 
-    // Start is called before the first frame update
-    void Start()
+    void OnReceivedRoomListUpdate()
     {
-        string[] values = {"room1", "room2", "room3", "room4"};
-        this.RenderRoomButtons(values);
+        this.RenderRoomButtons(PhotonNetwork.GetRoomList());
     }
 
-    public void RenderRoomButtons(string[] roomNames)
+    public void RenderRoomButtons(RoomInfo[] rooms)
     {
         RectTransform listRect = this.GetComponent<RectTransform>();
         float offsetY = 0f;
-        foreach(string roomName in roomNames)
+        foreach(RoomInfo room in rooms)
         {
             GameObject button = Instantiate(roomButtonPrefab);
             RectTransform buttonRect = button.GetComponent<RectTransform>();
+            string roomName = room.Name;
 
             button.transform.parent = this.transform;
             buttonRect.position = new Vector3(
@@ -33,21 +32,11 @@ public class RoomList : MonoBehaviour
                 listRect.position.z
             );
 
+
             button.GetComponent<RoomListButton>().roomName = roomName;
             button.GetComponentInChildren<Text>().text = roomName;
 
             offsetY -= this.intervals;
         }
-    }
-
-    public void AddRoomButton()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }
