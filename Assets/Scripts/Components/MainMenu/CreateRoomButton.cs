@@ -10,9 +10,7 @@ public class CreateRoomButton : MonoBehaviour
     {
         this.GetComponent<Button>().onClick.AddListener(() => {
             string roomName = "TestRoom";
-            PhotonRoomService.CreateRoom(roomName);
-            MenuManager.Instance.roomData.roomName = roomName;
-            LevelManager.Instance.LoadScene(1, true);
+            PhotonRoomService.CreateAndJoinRoom(roomName);
         });
     }
 }

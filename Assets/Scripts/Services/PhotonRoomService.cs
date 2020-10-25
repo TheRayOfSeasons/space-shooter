@@ -21,4 +21,22 @@ public class PhotonRoomService
         );
         Debug.Log($"Created room: {name}");
     }
+
+    public static void CreateAndJoinRoom(string name)
+    {
+        CreateRoom(name);
+        LevelManager.Instance.LoadScene(Constants.Levels.SampleScene, true);
+    }
+
+    public static void JoinRoom(string roomName)
+    {
+        PhotonNetwork.JoinRoom(roomName);
+        LevelManager.Instance.LoadScene(Constants.Levels.SampleScene, true);
+    }
+
+    public static void LeaveRoom()
+    {
+        PhotonNetwork.LeaveRoom();
+        LevelManager.Instance.LoadScene(Constants.Levels.MainMenu, true);
+    }
 }

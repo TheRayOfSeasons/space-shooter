@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A manager for the main menu UI.
+/// </summary>
 public class MenuManager : MonoBehaviour
 {
-    public RoomData roomData;
 
     private static MenuManager instance;
     public static MenuManager Instance
@@ -15,6 +17,5 @@ public class MenuManager : MonoBehaviour
     void Awake()
     {
         instance = this;
-        PhotonNetwork.ConnectUsingSettings(Configs.version);
     }
 }

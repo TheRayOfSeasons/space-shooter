@@ -4,6 +4,12 @@ using UnityEngine;
 
 namespace Constants
 {
+    public class Levels
+    {
+        public static readonly byte MainMenu = 0x0;
+        public static readonly byte SampleScene = 0x1;
+    }
+
     public class ColorLibrary
     {
         public static readonly string blue = "blue";

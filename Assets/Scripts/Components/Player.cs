@@ -38,7 +38,18 @@ public class Player : Entity
         Transform mainTransform = this.mainObject.transform;
         Vector3 bulletDirection = (
             front.transform.position - mainTransform.position).normalized;
-        GameObject bullet = shooter.Shoot(bulletDirection, 1000f);
+
+        GameObject bullet;
+        try
+        {
+            bullet = shooter.Shoot(bulletDirection, 1000f);
+        }
+        catch(System.NullReferenceException)
+        {
+            // Fail silently if called too early. Can happen during photon instantiation.
+            return;
+        }
+
         Bullet bulletScript;
         try
         {
@@ -49,6 +60,7 @@ public class Player : Entity
             // Fail silently if bullet got destroyed too early.
             return;
         }
+
         bulletScript.damage = damage;
         bulletScript.AssignColor(this.hexcode);
         bullet.transform.localEulerAngles = mainTransform.localEulerAngles;

@@ -12,13 +12,14 @@ public class RoomList : MonoBehaviour
 
     void OnReceivedRoomListUpdate()
     {
-        this.RenderRoomButtons(PhotonNetwork.GetRoomList());
+        this.RenderRoomButtons(PhotonRoomService.GetRooms());
     }
 
     public void RenderRoomButtons(RoomInfo[] rooms)
     {
         RectTransform listRect = this.GetComponent<RectTransform>();
         float offsetY = 0f;
+        // TODO: Scale using pagination. Do not load all rooms each call.
         foreach(RoomInfo room in rooms)
         {
             GameObject button = Instantiate(roomButtonPrefab);
