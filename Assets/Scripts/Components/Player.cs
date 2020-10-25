@@ -35,6 +35,11 @@ public class Player : Entity
     [PunRPC]
     public void RPCShoot()
     {
+        Fire();
+    }
+
+    void Fire()
+    {
         Transform mainTransform = this.mainObject.transform;
         Vector3 bulletDirection = (
             front.transform.position - mainTransform.position).normalized;
