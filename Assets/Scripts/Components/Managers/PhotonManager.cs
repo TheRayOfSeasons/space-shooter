@@ -13,7 +13,7 @@ public class PhotonManager : MonoBehaviour
     void Start()
     {
         if(!PhotonNetwork.connected)
-            PhotonNetwork.ConnectUsingSettings("1.0");
+            PhotonNetwork.ConnectUsingSettings(Configs.version);
         defaultStartPosition = new Vector3(0, 0, 0);
     }
 

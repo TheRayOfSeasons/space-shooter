@@ -11,4 +11,5 @@ public class Configs
     public static readonly KeyCode SHOOT = KeyCode.Space;
 
     public static readonly byte maxPlayers = 4;
+    public static readonly string version = "1.0";
 }

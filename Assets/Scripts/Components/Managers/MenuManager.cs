@@ -15,6 +15,6 @@ public class MenuManager : MonoBehaviour
     void Awake()
     {
         instance = this;
-        PhotonNetwork.ConnectUsingSettings("1.0");
+        PhotonNetwork.ConnectUsingSettings(Configs.version);
     }
 }
