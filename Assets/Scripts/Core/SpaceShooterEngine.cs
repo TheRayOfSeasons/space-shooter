@@ -260,6 +260,8 @@ namespace SpaceShooterEngine
         public GameObject gameObject;
         public Transform transform;
         public Player player;
+        public PhotonView photonView;
+        public bool isOnline;
         public bool enableColorChange = true;
 
         public ControlSystem(GameObject gameObject, Player player)
@@ -267,6 +269,16 @@ namespace SpaceShooterEngine
             this.gameObject = gameObject;
             this.player = player;
             this.transform = gameObject.transform;
+            this.isOnline = false;
+        }
+
+        public ControlSystem(GameObject gameObject, Player player, PhotonView photonView)
+        {
+            this.gameObject = gameObject;
+            this.player = player;
+            this.transform = gameObject.transform;
+            this.photonView = photonView;
+            this.isOnline = true;
         }
 
         /// <summary>
@@ -336,7 +348,8 @@ namespace SpaceShooterEngine
             if(nextIndex >= colorKeys.Count)
                 nextIndex = 0;
             string key = colorKeys[nextIndex];
-            this.player.AssignColor(Constants.EntityColor.hexCode[key]);
+            string hexcode = Constants.EntityColor.hexCode[key];
+            this.InjectColor(hexcode);
         }
 
         private void AssignPreviousColor(int currentIndex)
@@ -346,8 +359,20 @@ namespace SpaceShooterEngine
             if(nextIndex < 0)
                 nextIndex = colorKeys.Count - 1;
             string key = colorKeys[nextIndex];
-            Player player = this.gameObject.GetComponent<Player>();
-            this.player.AssignColor(Constants.EntityColor.hexCode[key]);
+            string hexcode = Constants.EntityColor.hexCode[key];
+            this.InjectColor(hexcode);
+        }
+
+        private void InjectColor(string hexcode)
+        {
+            if(this.isOnline)
+            {
+                this.photonView.RPC("RPCInjectColor", PhotonTargets.AllBuffered, hexcode);
+            }
+            else
+            {
+                this.player.AssignColor(hexcode);
+            }
         }
 
         public virtual void ClampMovement(

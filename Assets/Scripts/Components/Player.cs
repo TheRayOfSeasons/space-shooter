@@ -22,14 +22,15 @@ public class Player : Entity
 
     void Start()
     {
-        controls = new ControlSystem(this.mainObject, this);
+        this.photonView = GetComponent<PhotonView>();
+        controls = new ControlSystem(this.mainObject, this, this.photonView);
         controls.enableColorChange = true;
         shooter = new Shooter(this.mainObject, bullet);
         photonView = this.GetComponent<PhotonView>();
 
         direction = new Vector2(0, 1f);
         shoot = new TimedAction(attackSpeed, () => {
-            photonView.RPC("RPCShoot", PhotonTargets.AllBuffered, null);
+            this.photonView.RPC("RPCShoot", PhotonTargets.AllBuffered, null);
         });
     }
 
@@ -86,5 +87,4 @@ public class Player : Entity
             gameCamera.transform.position.z
         );
     }
-
 }
