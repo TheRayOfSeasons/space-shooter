@@ -12,7 +12,7 @@ public class Fortress : Entity
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.gameObject.tag == "Enemy")
+        if(other.gameObject.tag == Tags.ENEMY)
         {
             this.Damage(1f);
             Enemy enemy = other.gameObject.GetComponent<Enemy>();
