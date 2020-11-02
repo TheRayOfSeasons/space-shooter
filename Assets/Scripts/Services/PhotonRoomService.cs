@@ -22,16 +22,18 @@ public class PhotonRoomService
         Debug.Log($"Created room: {name}");
     }
 
-    public static void CreateAndJoinRoom(string name)
+    public static void CreateAndJoinRoom(string name, bool loadToRoom = true)
     {
         CreateRoom(name);
-        LevelManager.Instance.LoadScene(Constants.Levels.SampleScene, true);
+        if(loadToRoom)
+            LevelManager.Instance.LoadScene(Constants.Levels.SampleScene, true);
     }
 
-    public static void JoinRoom(string roomName)
+    public static void JoinRoom(string roomName, bool loadToRoom = true)
     {
         PhotonNetwork.JoinRoom(roomName);
-        LevelManager.Instance.LoadScene(Constants.Levels.SampleScene, true);
+        if(loadToRoom)
+            LevelManager.Instance.LoadScene(Constants.Levels.SampleScene, true);
     }
 
     public static void LeaveRoom()
