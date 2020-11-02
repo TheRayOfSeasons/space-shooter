@@ -12,6 +12,8 @@ public class Spawner : MonoBehaviour
     {
         spawn = new TimedAction(5f, () => {
             GameObject entity = Instantiate(toSpawn);
+            Enemy enemy = entity.GetComponent<Enemy>();
+            enemy.AssignColor(Constants.EntityColor.GetRandomColorHex());
             entity.transform.position = transform.position;
         });
     }
