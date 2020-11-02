@@ -28,15 +28,17 @@ public class WaypointEnemy : Enemy
         waypoints.loop = true;
         waypoints.slerp = true;
 
-        // TODO: Decouple. Must have a different color injection if game is offline
-        photonView = this.GetComponent<PhotonView>();
-        string hexcode = Constants.EntityColor.GetRandomColorHex();
-        photonView.RPC("RPCInjectEnemyColor", PhotonTargets.AllBuffered, hexcode);
-
         shooter = new Shooter(this.gameObject, bullet);
         shoot = new TimedAction(attackSpeed, () => {
             photonView.RPC("RPCEnemyShoot", PhotonTargets.AllBuffered, null);
         });
+    }
+
+    void OnPhotonInstantiate()
+    {
+        photonView = this.GetComponent<PhotonView>();
+        string hexcode = Constants.EntityColor.GetRandomColorHex();
+        photonView.RPC("RPCInjectEnemyColor", PhotonTargets.AllBuffered, hexcode);
     }
 
     void Update()
