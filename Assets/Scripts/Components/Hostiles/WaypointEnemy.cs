@@ -15,6 +15,9 @@ public class WaypointEnemy : Enemy
 
     void Start()
     {
+        // TODO: Decouple this logic
+        GameObject fortress = GameObject.FindGameObjectWithTag(Tags.FORTRESS);
+        destinations.Add(fortress.transform);
         List<Vector2> destinationVectors = new List<Vector2>();
         foreach(Transform destination in destinations)
             destinationVectors.Add(destination.position);
@@ -23,16 +26,48 @@ public class WaypointEnemy : Enemy
         waypoints.slerp = true;
 
         shooter = new Shooter(this.gameObject, bullet);
-        shoot = new TimedAction(attackSpeed, () => {
-            Vector3 bulletDirection = (front.transform.position - transform.position).normalized;
-            GameObject bullet = shooter.Shoot(bulletDirection, 500f);
-            bullet.transform.localEulerAngles = this.transform.localEulerAngles;
-        });
+        shoot = new TimedAction(attackSpeed, Fire);
     }
 
     void Update()
     {
         waypoints.TravelToNextDestination(Time.deltaTime);
         shoot.Run(Time.deltaTime);
+    }
+
+    [PunRPC]
+    public void RPCShoot()
+    {
+        Fire();
+    }
+
+    void Fire()
+    {
+        Vector3 bulletDirection = (front.transform.position - transform.position).normalized;
+        GameObject bullet;
+
+        try
+        {
+            bullet = shooter.Shoot(bulletDirection, 500f);
+        }
+        catch(System.NullReferenceException)
+        {
+            // Fail silently if called too early. Can happen during photon instantiation.
+            return;
+        }
+
+        Bullet bulletScript;
+        try
+        {
+            bulletScript = bullet.GetComponent<Bullet>();
+        }
+        catch(System.NullReferenceException)
+        {
+            // Fail silently if bullet got destroyed too early.
+            return;
+        }
+
+        bulletScript.AssignColor(this.hexcode);
+        bullet.transform.localEulerAngles = this.transform.localEulerAngles;
     }
 }
