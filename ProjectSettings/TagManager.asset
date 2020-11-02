@@ -8,6 +8,7 @@ TagManager:
   - PlayerFriendly
   - Enemy
   - EnemyBullet
+  - Fortress
   layers:
   - Default
   - TransparentFX

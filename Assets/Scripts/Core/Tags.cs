@@ -9,6 +9,7 @@ public class Tags
     public static readonly string PLAYERFRIENDLY = "PlayerFriendly";
     public static readonly string ENEMY = "Enemy";
     public static readonly string ENEMYBULLET = "EnemyBullet";
+    public static readonly string FORTRESS = "Fortress";
 
     public static readonly List<string> collection = new List<string>()
     {
@@ -16,7 +17,8 @@ public class Tags
         PLAYERBULLET,
         PLAYERFRIENDLY,
         ENEMY,
-        ENEMYBULLET
+        ENEMYBULLET,
+        FORTRESS
     };
 
     public static bool Validate(string tag, bool throwInvalid = true)
