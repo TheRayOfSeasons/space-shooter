@@ -22,7 +22,8 @@ public class Player : Entity
 
     void Start()
     {
-        controls = new ControlSystem(this.mainObject);
+        controls = new ControlSystem(this.mainObject, this);
+        controls.enableColorChange = true;
         shooter = new Shooter(this.mainObject, bullet);
         photonView = this.GetComponent<PhotonView>();
 
@@ -74,6 +75,7 @@ public class Player : Entity
     void Update()
     {
         controls.Navigate(this.mainObject.transform, Time.deltaTime, movementSpeed);
+        controls.ControlColor();
 
         if(Input.GetKey(Configs.SHOOT))
             shoot.Run(Time.deltaTime);

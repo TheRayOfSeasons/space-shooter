@@ -9,6 +9,8 @@ public class Configs
     public static readonly KeyCode BACK = KeyCode.S;
     public static readonly KeyCode RIGHT = KeyCode.D;
     public static readonly KeyCode SHOOT = KeyCode.Space;
+    public static readonly KeyCode PREV_COLOR = KeyCode.Q;
+    public static readonly KeyCode NEXT_COLOR = KeyCode.E;
 
     public static readonly byte maxPlayers = 4;
     public static readonly string version = "1.0";

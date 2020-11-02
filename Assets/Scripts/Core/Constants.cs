@@ -26,10 +26,10 @@ namespace Constants
         public static readonly string yellow = "yellow";
         public static Dictionary<string, string> hexCode = new Dictionary<string, string>()
         {
-            {blue, "#4d4dff"},
-            {green, "#00b359"},
-            {red, "#ff6666"},
-            {yellow, "#ffff4d"}
+            {blue, "#4D4DFF"},
+            {green, "#00B359"},
+            {red, "#FF6666"},
+            {yellow, "#FFFF4D"}
         };
 
         public static List<string> GetAllColorKeys()

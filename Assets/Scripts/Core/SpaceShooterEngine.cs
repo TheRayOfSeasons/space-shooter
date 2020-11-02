@@ -259,10 +259,13 @@ namespace SpaceShooterEngine
     {
         public GameObject gameObject;
         public Transform transform;
+        public Player player;
+        public bool enableColorChange = true;
 
-        public ControlSystem(GameObject gameObject)
+        public ControlSystem(GameObject gameObject, Player player)
         {
             this.gameObject = gameObject;
+            this.player = player;
             this.transform = gameObject.transform;
         }
 
@@ -290,6 +293,61 @@ namespace SpaceShooterEngine
             {
                 localTransform.Rotate(new Vector3(0, 0, -1) * movement * 100f);
             }
+        }
+
+        public virtual void ControlColor()
+        {
+            if(!enableColorChange)
+                return;
+
+            if(Input.GetKeyDown(Configs.PREV_COLOR))
+            {
+                int colorIndex = GetColorIndex();
+                AssignPreviousColor(colorIndex);
+            }
+            else if(Input.GetKeyDown(Configs.NEXT_COLOR))
+            {
+                int colorIndex = GetColorIndex();
+                AssignNextColor(colorIndex);
+            }
+        }
+
+        private int GetColorIndex()
+        {
+            SpriteRenderer renderer = this.player.spriteRenderer;
+            Dictionary<string, string> hexCode = Constants.EntityColor.hexCode;
+            List<string> colorKeys = Constants.EntityColor.GetAllColorKeys();
+            string currentHex = ColorUtility.ToHtmlStringRGB(renderer.color);
+            for(int i = 0; i < colorKeys.Count; i++)
+            {
+                string key = colorKeys[i];
+                string hex = hexCode[key].TrimStart('#');
+                if(hex == currentHex)
+                    return i;
+            }
+            // -1 defines that the color does not exist with a valid index.
+            return -1;
+        }
+
+        private void AssignNextColor(int currentIndex)
+        {
+            List<string> colorKeys = Constants.EntityColor.GetAllColorKeys();
+            int nextIndex = currentIndex + 1;
+            if(nextIndex >= colorKeys.Count)
+                nextIndex = 0;
+            string key = colorKeys[nextIndex];
+            this.player.AssignColor(Constants.EntityColor.hexCode[key]);
+        }
+
+        private void AssignPreviousColor(int currentIndex)
+        {
+            List<string> colorKeys = Constants.EntityColor.GetAllColorKeys();
+            int nextIndex = currentIndex - 1;
+            if(nextIndex < 0)
+                nextIndex = colorKeys.Count - 1;
+            string key = colorKeys[nextIndex];
+            Player player = this.gameObject.GetComponent<Player>();
+            this.player.AssignColor(Constants.EntityColor.hexCode[key]);
         }
 
         public virtual void ClampMovement(
