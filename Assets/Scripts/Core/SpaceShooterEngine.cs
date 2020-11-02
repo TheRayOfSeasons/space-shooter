@@ -125,7 +125,7 @@ namespace SpaceShooterEngine
             if(invulnerable)
                 return false;
 
-            bool isKillingHit = damage > this.hitPoints;
+            bool isKillingHit = damage >= this.hitPoints;
             this.hitPoints -= isKillingHit? this.hitPoints : damage;
             OnDamage();
 
