@@ -47,9 +47,4 @@ public class PlayerNetworking : MonoBehaviour
         player.AssignColor(hexcode);
         photonView.RPC("RPCInjectColor", PhotonTargets.AllBuffered, hexcode);
     }
-
-    void Update()
-    {
-        
-    }
 }
