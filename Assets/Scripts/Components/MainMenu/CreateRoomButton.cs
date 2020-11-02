@@ -5,11 +5,12 @@ using UnityEngine.UI;
 
 public class CreateRoomButton : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public InputField roomInput;
+
     void Start()
     {
         this.GetComponent<Button>().onClick.AddListener(() => {
-            string roomName = "TestRoom";
+            string roomName = this.roomInput.text;
             PhotonRoomService.CreateAndJoinRoom(roomName);
         });
     }
