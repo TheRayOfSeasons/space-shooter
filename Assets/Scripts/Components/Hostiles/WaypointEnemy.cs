@@ -9,15 +9,18 @@ public class WaypointEnemy : Enemy
     [SerializeField] private GameObject bullet;
     [SerializeField] private GameObject front;
     [SerializeField] private float distanceOffset;
+    public PhotonView photonView;
     private Waypoint2D waypoints;
     private TimedAction shoot;
     private Shooter shooter;
 
     void Start()
     {
+        Debug.Log("Initializing Enemy");
         // TODO: Decouple this logic
         GameObject fortress = GameObject.FindGameObjectWithTag(Tags.FORTRESS);
         destinations.Add(fortress.transform);
+
         List<Vector2> destinationVectors = new List<Vector2>();
         foreach(Transform destination in destinations)
             destinationVectors.Add(destination.position);
@@ -25,8 +28,15 @@ public class WaypointEnemy : Enemy
         waypoints.loop = true;
         waypoints.slerp = true;
 
+        // TODO: Decouple. Must have a different color injection if game is offline
+        photonView = this.GetComponent<PhotonView>();
+        string hexcode = Constants.EntityColor.GetRandomColorHex();
+        photonView.RPC("RPCInjectEnemyColor", PhotonTargets.AllBuffered, hexcode);
+
         shooter = new Shooter(this.gameObject, bullet);
-        shoot = new TimedAction(attackSpeed, Fire);
+        shoot = new TimedAction(attackSpeed, () => {
+            photonView.RPC("RPCEnemyShoot", PhotonTargets.AllBuffered, null);
+        });
     }
 
     void Update()
@@ -36,7 +46,7 @@ public class WaypointEnemy : Enemy
     }
 
     [PunRPC]
-    public void RPCShoot()
+    public void RPCEnemyShoot()
     {
         Fire();
     }

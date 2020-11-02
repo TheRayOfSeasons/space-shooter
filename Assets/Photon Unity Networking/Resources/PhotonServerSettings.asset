@@ -47,4 +47,6 @@ MonoBehaviour:
   - RPCSetupBulletValues
   - RPCShoot
   - RPCSetupEnemy
+  - RPCEnemyShoot
+  - RPCInjectEnemyColor
   DisableAutoOpenWizard: 1

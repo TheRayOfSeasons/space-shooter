@@ -1283,6 +1283,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   toSpawn: {fileID: 1160901260390177968, guid: 74d1798336b001042a8557f36e0148fa, type: 3}
+  isOnline: 1
 --- !u!4 &1492396063
 Transform:
   m_ObjectHideFlags: 0
@@ -1865,6 +1866,16 @@ PrefabInstance:
       propertyPath: destinations.Array.data[0]
       value: 
       objectReference: {fileID: 178949115}
+    - target: {fileID: 4241559034005302675, guid: 74d1798336b001042a8557f36e0148fa,
+        type: 3}
+      propertyPath: viewIdField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241559034005302675, guid: 74d1798336b001042a8557f36e0148fa,
+        type: 3}
+      propertyPath: instantiationId
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 74d1798336b001042a8557f36e0148fa, type: 3}
 --- !u!1001 &5947965062985190091

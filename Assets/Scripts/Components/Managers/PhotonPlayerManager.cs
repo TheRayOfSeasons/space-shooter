@@ -34,7 +34,7 @@ public class PhotonPlayerManager : MonoBehaviour
             playerPrefab.name,
             defaultStartPosition,
             Quaternion.identity,
-            0x0
+            Constants.ByteGroups.FIRST
         );
         Debug.Log("Someone Joined");
         lobbyCamera.SetActive(false);

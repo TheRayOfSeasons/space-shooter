@@ -10,4 +10,10 @@ public class Enemy : Entity
         GameManager.Instance.AddScore(scoreReward);
         Destroy(gameObject);
     }
+
+    [PunRPC]
+    public void RPCInjectEnemyColor(string hexcode)
+    {
+        this.AssignColor(hexcode);
+    }
 }

@@ -10,6 +10,12 @@ namespace Constants
         public static readonly byte SampleScene = 0x1;
     }
 
+    public class ByteGroups
+    {
+        public static readonly byte FIRST = 0x0;
+        public static readonly byte SECOND = 0x1;
+    }
+
     public class ColorLibrary
     {
         public static readonly string blue = "blue";
